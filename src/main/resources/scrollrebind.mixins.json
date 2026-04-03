@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.coding4ever123.scrollrebind.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MouseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

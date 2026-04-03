@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "scrollrebind",
+  "version": "${version}",
+  "name": "ScrollRebind",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/scrollrebind/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.coding4ever123.scrollrebind.client.ScrollrebindClient"
+    ]
+  },
+  "mixins": [
+    "scrollrebind.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "accessWidener": "aw.accesswidener"
+}

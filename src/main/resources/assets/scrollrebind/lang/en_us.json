@@ -1,0 +1,9 @@
+{
+  "scrollrebind.direction.invalid": "Invalid direction. Must be: \"Down\" or \"Up\"",
+  "scrollrebind.keybind.invalid": "Invalid Keybind. See command suggestions for valid options",
+  "scrollrebind.return.state": "§6Current State: | UP: %s§6 | DOWN: %s§6 |",
+  "scrollrebind.return.enabled": "§6Scrollrebind is now enabled!",
+  "scrollrebind.return.disabled": "§cScrollrebind is now disabled!",
+  "scrollrebind.return.set": "§6Direction \"%s§6\" is now bound to \"%s§6\"",
+  "scrollrebind.return.unset": "§6Direction \"%s§6\" is now unbound"
+}
