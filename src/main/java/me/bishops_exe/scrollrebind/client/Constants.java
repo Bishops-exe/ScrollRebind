@@ -1,4 +1,4 @@
-package org.coding4ever123.scrollrebind.client;
+package me.bishops_exe.scrollrebind.client;
 
 import java.io.File;
 import net.fabricmc.loader.api.FabricLoader;

@@ -1,22 +1,22 @@
-package org.coding4ever123.scrollrebind.client.argumentTypes;
+package me.bishops_exe.scrollrebind.client.argumentTypes;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import net.minecraft.command.CommandSource;
-import net.minecraft.text.Text;
-import org.coding4ever123.scrollrebind.client.argumentTypes.DirectionArgumentType.ScrollDirection;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
+import me.bishops_exe.scrollrebind.client.argumentTypes.DirectionArgumentType.ScrollDirection;
 
 public class DirectionArgumentType implements ArgumentType<ScrollDirection> {
 
-  public static final DynamicCommandExceptionType INVALID_EXCEPTION = new DynamicCommandExceptionType(
-      (x) -> Text.stringifiedTranslatable("scrollrebind.direction.invalid")
+  public static final SimpleCommandExceptionType INVALID_EXCEPTION = new SimpleCommandExceptionType(
+      Component.translatable("scrollrebind.direction.invalid")
   );
 
   public enum ScrollDirection {
@@ -38,7 +38,7 @@ public class DirectionArgumentType implements ArgumentType<ScrollDirection> {
       case "up" -> ScrollDirection.UP;
       case "down" -> ScrollDirection.DOWN;
       case "both" -> ScrollDirection.BOTH;
-      default -> throw INVALID_EXCEPTION.create(reader);
+      default -> throw INVALID_EXCEPTION.create();
     };
   }
 
@@ -46,7 +46,7 @@ public class DirectionArgumentType implements ArgumentType<ScrollDirection> {
   @Override
   public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context,
       SuggestionsBuilder builder) {
-    return CommandSource.suggestMatching(List.of("UP", "DOWN", "BOTH"), builder);
+    return SharedSuggestionProvider.suggest(List.of("UP", "DOWN", "BOTH"), builder);
   }
 
 

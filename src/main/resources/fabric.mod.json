@@ -11,7 +11,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "org.coding4ever123.scrollrebind.client.ScrollrebindClient"
+      "me.bishops_exe.scrollrebind.client.ScrollrebindClient"
     ]
   },
   "mixins": [
@@ -21,6 +21,5 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}"
-  },
-  "accessWidener": "aw.accesswidener"
+  }
 }

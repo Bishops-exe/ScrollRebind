@@ -1,7 +1,7 @@
-package org.coding4ever123.scrollrebind.client;
+package me.bishops_exe.scrollrebind.client;
 
-import static org.coding4ever123.scrollrebind.client.Constants.CONFIG_DIR;
-import static org.coding4ever123.scrollrebind.client.Constants.CONFIG_FILE;
+import static me.bishops_exe.scrollrebind.client.Constants.CONFIG_DIR;
+import static me.bishops_exe.scrollrebind.client.Constants.CONFIG_FILE;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
-import org.coding4ever123.scrollrebind.client.argumentTypes.DirectionArgumentType.ScrollDirection;
+import me.bishops_exe.scrollrebind.client.argumentTypes.DirectionArgumentType.ScrollDirection;
 
 public class Config {
   private static final Gson gson = new GsonBuilder().create();

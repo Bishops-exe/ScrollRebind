@@ -1,10 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.coding4ever123.scrollrebind.client.mixin",
+  "package": "me.bishops_exe.scrollrebind.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "MouseMixin"
+    "MouseHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
