@@ -3,7 +3,7 @@
 mod.id = "scrollrebind"
 mod.name = "ScrollRebind"
 mod.group = "me.bishops_exe"
-mod.version = "1.0.3"
+mod.version = "1.0.4"
 
 # Modrinth project id or slug. Leave blank to skip Modrinth when publishing.
 publish.modrinth_id = "WkXLQ7Es"
