@@ -22,7 +22,7 @@ public class MouseHandlerMixin {
   @Final
   private Minecraft minecraft;
 
-  @Inject(method = "onScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;setSelectedSlot(I)V"), cancellable = true)
+  @Inject(method = "onScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSpectator()Z"), cancellable = true)
   void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
     if (!Config.getInstance().isEnabled()) {
       return;
