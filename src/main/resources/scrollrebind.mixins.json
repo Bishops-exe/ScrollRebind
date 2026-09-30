@@ -2,8 +2,9 @@
   "required": true,
   "minVersion": "0.8",
   "package": "me.bishops_exe.scrollrebind.client.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "${java}",
   "client": [
+    "KeyMappingMixin",
     "MouseHandlerMixin"
   ],
   "injectors": {

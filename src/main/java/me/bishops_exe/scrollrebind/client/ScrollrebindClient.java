@@ -1,8 +1,16 @@
 package me.bishops_exe.scrollrebind.client;
 
+// Fabric API renamed the client command builder factory in the 26.1 release line.
+//? if >=26.1 {
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+//?} else {
+/*import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+*///?}
+
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import me.bishops_exe.scrollrebind.client.argumentTypes.DirectionArgumentType;
@@ -11,15 +19,18 @@ import me.bishops_exe.scrollrebind.client.argumentTypes.KeybindArgumentType;
 import me.bishops_exe.scrollrebind.client.utils.CommandReturner;
 
 public class ScrollrebindClient implements ClientModInitializer {
+  public void registerCommand(CommandDispatcher<FabricClientCommandSource> dispatcher, Object context) {
+    registerCommand(dispatcher);
+  }
 
-  public void commandReg(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+  public void registerCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
     dispatcher.register(
-        ClientCommands.literal("scrollrebind")
+        literal("scrollrebind")
             .then(
-                ClientCommands.literal("set").then(
-                    ClientCommands.argument("direction", new DirectionArgumentType())
+                literal("set").then(
+                    argument("direction", new DirectionArgumentType())
                         .then(
-                            ClientCommands.argument("keybind", new KeybindArgumentType())
+                            argument("keybind", new KeybindArgumentType())
                                 .executes(ctx -> {
                                   CommandReturner cmdr = new CommandReturner(ctx);
                                   ScrollDirection direction = ctx.getArgument("direction",
@@ -37,8 +48,8 @@ public class ScrollrebindClient implements ClientModInitializer {
                         )
                 )
             ).then(
-                ClientCommands.literal("unset").then(
-                    ClientCommands.argument("direction", new DirectionArgumentType())
+                literal("unset").then(
+                    argument("direction", new DirectionArgumentType())
                         .executes(ctx -> {
                           CommandReturner cmdr = new CommandReturner(ctx);
                           ScrollDirection direction = ctx.getArgument("direction",
@@ -54,12 +65,12 @@ public class ScrollrebindClient implements ClientModInitializer {
                         })
                 )
             )
-            .then(ClientCommands.literal("enable").executes((ctx) -> {
+            .then(literal("enable").executes((ctx) -> {
               Config.getInstance().setEnabled(true);
               new CommandReturner(ctx).printState();
               return 1;
             }))
-            .then(ClientCommands.literal("disable").executes((ctx) -> {
+            .then(literal("disable").executes((ctx) -> {
               Config.getInstance().setEnabled(false);
               new CommandReturner(ctx).printState();
               return 1;
@@ -69,7 +80,7 @@ public class ScrollrebindClient implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
-    ClientCommandRegistrationCallback.EVENT.register((x, y) -> commandReg(x));
+    ClientCommandRegistrationCallback.EVENT.register(this::registerCommand);
   }
 
 }

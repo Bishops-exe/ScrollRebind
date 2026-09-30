@@ -8,7 +8,11 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -18,22 +22,19 @@ public class KeybindArgumentType implements ArgumentType<String> {
   public static final SimpleCommandExceptionType INVALID_EXCEPTION = new SimpleCommandExceptionType(
       Component.translatable("scrollrebind.keybind.invalid")
   );
-  public static ArrayList<String> KEYBINDS = new ArrayList<>();
-
-  static {
-    for (KeyMapping key : Minecraft.getInstance().options.keyMappings) {
-      KEYBINDS.add(key.getName());
-    }
-  }
+  public static Set<String> KEYBINDS = Arrays.stream(Minecraft.getInstance().options.keyMappings)
+          .map(KeyMapping::getName)
+          .collect(Collectors.toUnmodifiableSet());
 
   @Override
   public String parse(StringReader reader) throws CommandSyntaxException {
     String value = reader.readUnquotedString();
-    if (KEYBINDS.contains(value)) {
-      return value;
-    } else {
+
+    if (!KEYBINDS.contains(value)) {
       throw INVALID_EXCEPTION.create();
     }
+
+    return value;
   }
 
   @Override

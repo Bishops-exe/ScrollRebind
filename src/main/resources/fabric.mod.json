@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "scrollrebind",
+  "id": "${id}",
   "version": "${version}",
-  "name": "ScrollRebind",
+  "name": "${name}",
   "description": "",
   "authors": [],
   "contact": {},
@@ -18,8 +18,8 @@
     "scrollrebind.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=${loader}",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version_checks}"
+    "minecraft": "${minecraft}"
   }
 }

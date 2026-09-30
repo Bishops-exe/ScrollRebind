@@ -1,4 +1,26 @@
-run
-build
-.gradle
-.idea
+# gradle
+.gradle/
+build/
+out/
+classes/
+
+# stonecutter - everything under versions/ is generated from stonecutter.properties.toml
+/versions/
+
+# idea
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# macos
+*.DS_Store
+
+# fabric
+run/
+
+# java
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

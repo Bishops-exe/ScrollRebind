@@ -30,10 +30,12 @@ public class Config {
 
   public static Config load() {
     CONFIG_DIR.mkdirs();
+
     if (!CONFIG_FILE.exists()) {
       new Config().save();
       return load();
     }
+
     try {
       String json = Files.readString(CONFIG_FILE.toPath(), StandardCharsets.UTF_8);
       return load(json);
@@ -80,6 +82,7 @@ public class Config {
     if (scrollDirection == ScrollDirection.BOTH) {
       return;
     }
+
     bindMap.remove(scrollDirection);
     save();
   }
@@ -88,6 +91,7 @@ public class Config {
     if (scrollDirection == ScrollDirection.BOTH) {
       return;
     }
+
     bindMap.put(scrollDirection, keybindKey);
     save();
   }

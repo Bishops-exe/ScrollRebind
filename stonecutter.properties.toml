@@ -1,0 +1,43 @@
+# Centralized mod + dependency properties.
+# https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "scrollrebind"
+mod.name = "ScrollRebind"
+mod.group = "me.bishops_exe"
+mod.version = "1.0.2"
+
+# Modrinth project id or slug. Leave blank to skip Modrinth when publishing.
+publish.modrinth_id = "WkXLQ7Es"
+
+deps.fabric_loader = "0.18.6"
+loomx.loom_version = "1.18-SNAPSHOT"
+
+# Every node declares the inclusive Minecraft range its jar covers. It drives both
+# fabric.mod.json's `depends.minecraft` and the version list sent to Modrinth, which
+# is expanded against Mojang's manifest at publish time.
+# Ranges must not overlap between nodes - two jars claiming the same Minecraft
+# version would show up as duplicate downloads on the project page.
+
+["1.21.9"]
+publish.mc_range_start = "1.21.9"
+publish.mc_range_end = "1.21.9"
+
+deps.fabric_api = "0.134.1+1.21.9"
+
+["1.21.10"]
+publish.mc_range_start = "1.21.10"
+publish.mc_range_end = "1.21.10"
+
+deps.fabric_api = "0.138.4+1.21.10"
+
+["1.21.11"]
+publish.mc_range_start = "1.21.11"
+publish.mc_range_end = "1.21.11"
+
+deps.fabric_api = "0.141.6+1.21.11"
+
+["26.1"]
+# Bump the end when a new 26.x ships.
+publish.mc_range_start = "26.1"
+publish.mc_range_end = "26.3"
+
+deps.fabric_api = "0.145.1+26.1"

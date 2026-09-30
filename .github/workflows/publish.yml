@@ -1,0 +1,60 @@
+name: Publish
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate without uploading anything to Modrinth
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to Modrinth
+    runs-on: ubuntu-latest
+
+    steps:
+      # Full history so the tag's annotation can be read as the changelog
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            21
+            25
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      # The published version comes from stonecutter.properties.toml, not the tag,
+      # so a mismatch would silently publish the wrong number.
+      - name: Check tag matches mod.version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          mod_version=$(grep -m1 '^mod.version' stonecutter.properties.toml | cut -d'"' -f2)
+          if [ "${GITHUB_REF_NAME}" != "v${mod_version}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match mod.version ${mod_version} (expected v${mod_version})"
+            exit 1
+          fi
+
+      - name: Read changelog from tag annotation
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          {
+            echo 'CHANGELOG<<STONECUTTER_EOF'
+            git tag -l --format='%(contents)' "${GITHUB_REF_NAME}"
+            echo 'STONECUTTER_EOF'
+          } >> "$GITHUB_ENV"
+
+      - name: Publish
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          PUBLISH_DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: ./gradlew publishMods

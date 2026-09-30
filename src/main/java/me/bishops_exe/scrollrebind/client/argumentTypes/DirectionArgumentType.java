@@ -7,7 +7,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
@@ -24,29 +27,33 @@ public class DirectionArgumentType implements ArgumentType<ScrollDirection> {
     DOWN,
     BOTH;
 
+    public static Iterable<String> getSuggestions() {
+      return Arrays.stream(ScrollDirection.values()).map(Object::toString).toList();
+    }
+
+    public static ScrollDirection parse(String value) throws CommandSyntaxException {
+      try {
+        return ScrollDirection.valueOf(value.toUpperCase(Locale.ROOT));
+      } catch (IllegalArgumentException e) {
+        throw INVALID_EXCEPTION.create();
+      }
+    }
+
     public List<ScrollDirection> toList() {
       return this == BOTH ? List.of(UP, DOWN) : List.of(this);
     }
   }
 
-  public DirectionArgumentType() {
-  }
-
   @Override
   public ScrollDirection parse(StringReader reader) throws CommandSyntaxException {
-    return switch (reader.readString().toLowerCase()) {
-      case "up" -> ScrollDirection.UP;
-      case "down" -> ScrollDirection.DOWN;
-      case "both" -> ScrollDirection.BOTH;
-      default -> throw INVALID_EXCEPTION.create();
-    };
+    return ScrollDirection.parse(reader.readString());
   }
 
 
   @Override
   public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context,
       SuggestionsBuilder builder) {
-    return SharedSuggestionProvider.suggest(List.of("UP", "DOWN", "BOTH"), builder);
+    return SharedSuggestionProvider.suggest(ScrollDirection.getSuggestions(), builder);
   }
 
 

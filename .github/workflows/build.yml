@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build all Minecraft versions
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # 21 for 1.21.x, 25 for 26.1+. Temurin is Adoptium, which build.gradle.kts pins as the toolchain vendor.
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |
+            21
+            25
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      # Builds every version, not just the active one, so a change that only breaks
+      # an inactive version still fails here.
+      - name: Build
+        run: ./gradlew :1.21.9:buildAndCollect :1.21.10:buildAndCollect :1.21.11:buildAndCollect :26.1:buildAndCollect
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jars
+          path: build/libs/*/*.jar
+          if-no-files-found: error

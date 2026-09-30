@@ -1,7 +1,7 @@
 package me.bishops_exe.scrollrebind.client.mixin;
 
 import java.util.Arrays;
-import me.bishops_exe.scrollrebind.client.utils.Utils;
+import me.bishops_exe.scrollrebind.client.duck.ScrollableKeyMapping;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
@@ -44,6 +44,6 @@ public class MouseHandlerMixin {
       return;
     }
 
-    Utils.incrementTimesClicked(keybind);
+    ((ScrollableKeyMapping) keybind).scrollrebind$incrementTimesClicked();
   }
 }

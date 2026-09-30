@@ -6,24 +6,21 @@ import net.minecraft.network.chat.Component;
 import me.bishops_exe.scrollrebind.client.Config;
 import me.bishops_exe.scrollrebind.client.argumentTypes.DirectionArgumentType.ScrollDirection;
 
-public class CommandReturner {
-
-  private final FabricClientCommandSource source;
-
+public record CommandReturner(FabricClientCommandSource source) {
   public CommandReturner(CommandContext<FabricClientCommandSource> context) {
     this(context.getSource());
   }
 
-  public CommandReturner(FabricClientCommandSource source) {
-    this.source = source;
+  public void printTranslationKey(String key, Object... args) {
+    source.sendFeedback(Component.translatable(key, args));
   }
 
   public void printSet(ScrollDirection direction, String text) {
-    source.sendFeedback(Component.translatable("scrollrebind.return.set", direction, text));
+    printTranslationKey("scrollrebind.return.set", direction, text);
   }
 
   public void printUnset(ScrollDirection direction) {
-    source.sendFeedback(Component.translatable("scrollrebind.return.unset", direction));
+    printTranslationKey("scrollrebind.return.unset", direction);
   }
 
   public void printBinds() {
@@ -32,14 +29,12 @@ public class CommandReturner {
     String up = inst.getBind(ScrollDirection.UP);
     String down = inst.getBind(ScrollDirection.DOWN);
 
-    source.sendFeedback(Component.translatable("scrollrebind.return.state", up, down));
+    printTranslationKey("scrollrebind.return.state", up, down);
   }
 
   public void printState() {
-    if (Config.getInstance().isEnabled()) {
-      source.sendFeedback(Component.translatable("scrollrebind.return.enabled"));
-    } else {
-      source.sendFeedback(Component.translatable("scrollrebind.return.disabled"));
-    }
+    String translationKey = Config.getInstance().isEnabled() ? "scrollrebind.return.enabled" : "scrollrebind.return.disabled";
+
+    printTranslationKey(translationKey);
   }
 }
